@@ -12,6 +12,72 @@ with open('calls.csv', 'r') as f:
     reader = csv.reader(f)
     calls = list(reader)
 
+def is_from_Bangalore (input_number) :
+    
+    #check brackets
+    if input_number[0] == "(" and input_number[4] == ")" :
+      if input_number[1:4] == "080" :
+        #print("True")
+        return True
+
+    #print("False")
+    return False
+
+#is_from_Bangalore("(080)xxxxxx") 1
+
+def is_in_bangalore_number_list (input_check,bangalore_number_list) :
+
+   if input_check in bangalore_number_list :
+      return True
+
+   return False
+
+# k
+
+def solution (calls) :
+   
+   Both_not_from_bangalore_total = 0
+   Only_one_from_bangalore_total = 0
+   Both_from_bangalore_total = 0
+
+   bangalore_number_list = [] # k
+
+   for call in calls : # n
+      if is_from_Bangalore(call[0]) == False and is_from_Bangalore(call[1]) == False :
+         Both_not_from_bangalore_total += 1
+      
+      elif (is_from_Bangalore(call[0]) == True and is_from_Bangalore(call[1]) == False) :
+         Only_one_from_bangalore_total += 1
+
+         if is_in_bangalore_number_list(call[0],bangalore_number_list) == False :
+            bangalore_number_list += [call[0]]
+         
+      elif is_from_Bangalore(call[0]) == False and is_from_Bangalore(call[1]) == True :
+         Only_one_from_bangalore_total += 1
+
+         if is_in_bangalore_number_list(call[1],bangalore_number_list) == False :
+            bangalore_number_list += [call[1]]
+      
+      elif is_from_Bangalore(call[0]) == True and is_from_Bangalore(call[1]) == True :
+         Both_from_bangalore_total += 1
+
+         if is_in_bangalore_number_list(call[0],bangalore_number_list) == False :
+            bangalore_number_list += [call[0]]
+
+         if is_in_bangalore_number_list(call[1],bangalore_number_list) == False :
+            bangalore_number_list += [call[1]]
+   
+   percentage_both_from_bangalore = ( Both_from_bangalore_total / ( Both_not_from_bangalore_total + Only_one_from_bangalore_total ) ) * 100
+   bangalore_number_list_sorted = sorted(bangalore_number_list)
+
+   print("The numbers called by people in Bangalore have codes: ")
+   for bangalore_number in bangalore_number_list_sorted :
+      print(bangalore_number,"\n")
+
+   print(f"{percentage_both_from_bangalore:.2f}" ," percent of calls from fixed lines in Bangalore are calls to other fixed lines in Bangalore.")
+
+solution(calls=calls)
+
 """
 TASK 3:
 (080) is the area code for fixed line telephones in Bangalore.
