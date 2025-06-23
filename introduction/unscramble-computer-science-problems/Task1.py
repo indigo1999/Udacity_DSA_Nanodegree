@@ -12,14 +12,20 @@ with open('calls.csv', 'r') as f:
     calls = list(reader)
 
 def solution (texts,calls) :
-    different_numbers = []
-    for text in texts :
+    different_numbers = [] # 2t + 2c
+    for text in texts : # t
         if text[0] not in different_numbers :
             different_numbers += [text[0]]
 
-    for call in calls :
+        if text[1] not in different_numbers :
+            different_numbers += [text[1]]
+
+    for call in calls : # c
         if call[0] not in different_numbers :
             different_numbers += [call[0]]
+
+        if call[1] not in different_numbers :
+            different_numbers += [call[1]]
     
     print("There are ",list_len(different_numbers), " different telephone numbers in the records.")
 
