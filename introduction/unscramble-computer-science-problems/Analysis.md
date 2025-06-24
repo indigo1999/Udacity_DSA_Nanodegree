@@ -46,13 +46,35 @@
 - **Justification**:  In the worst case, all phone numbers are distinct, sender and receiver, we will process up to 2t + 2c phone numbers in total. the different_numbers list will grow to size not bigger than 2t+2c. Inside the first loop,there are 2 "not in" operations per iteration which performs linear search over the list - that's O(k) where k is the current length of different_numbers. Assume each phone number is unique then the total cost of all the not in checks is O (1 + 2 + 3 + ... + (2t+2c)) = O ((2t+2c)^2) . The second loop is similar to the previous one, O((2t+2c)^2). Finally, overall O is O((2t+2c)^2) which is O((t + c)^2). 
 
 ## Task2
-**Description**: 
+**Description**: The task to find which telephone number spent the highest time on phone and how long does the number take.
 
-**Approach**: 
+**Approach**: Before get into coding the main function, solution function, I created 3 functions as my helper functions which are list_len, string_to_integer_seconds and dict_get_by_key functions. The list_len is a function for calculating length input list. The string_to_integer_seconds function is a function for convert string into integer type. The dict_get_by_key is a function for get a value from the input dictionary by given key. Here comes the solution function, I created a dictionary named "phone_dict". I iterated through calls record, calling dict_get_by_key function to get its value and to ensure the key existence. After get the value, I increment it with the time unit integer after converting type with string_to_integer_seconds. I did these processes with both caller and receiver number.
+
+After I get the completed phone_dict dictionary, I make 2 variables, max_time_spent and max_time_phone_number. I iterated through phone_dict. If in-checking value is more than previous max_time_spent value, it will replace the previous value with in-checking value and replace the max_time_phone_number with in-checking key. 
+
+Finally, I printed out the message formatted with max_time_spent and max_time_phone_number variables.
+
 **Complexity Analysis**:
 - **Algorithm**: 
-- **Big O Notation**:
-- **Justification**:
+1. Initialize a dictionary phone_dict to keep track of the total call duration (in seconds) for each phone number.
+
+2. Iterate over each call in the list calls:
+
+    - For the caller (call[0]) and the receiver (call[1]), do the following:
+
+        - Convert the call duration string (call[3], e.g. "120") into an integer number of seconds using the helper function string_to_integer_seconds.
+
+        - Add this duration to both the caller's and receiver's total in phone_dict.
+
+3. Find the phone number with the maximum total time:
+
+    - Initialize max_time_spent and max_time_phone_number.
+
+    - Loop through the keys in phone_dict and update these variables when a higher total duration is found.
+
+4. Print the result using print().
+- **Big O Notation**:$O(nk)$ where n is the length of calls record and k is average length of the duration string.
+- **Justification**: The dict_get_by_key function is a function for searching key existence and return its value which dictionary key lookup is O(1) average case. The string_to_integer_seconds is a function to convert string into integer.In this function with considering the worst case, the outer loop has to process through input string k times.The inner loop has to process through string_to_number_dict dictionary 10 times, so it will be O(10k) which is O(k) after drop the constant value. The next loop for this function, it iterated through integer_list k times and each time it called list_len function which its Big O is O(k), k is length of input list. For this function, we get O(k + kk) or O(k^2). Back to main function, Iterating through calls record n times and each time it called dict_get_by_key 2 times and string_to_integer_seconds 2 times which overall O for this loop is O(n(k^2+k^2)), O(n(k^2)). The last loop, In worst case every call involves two unique numbers. the phone_dict will consist of 2n phone numbers and the last loop has to iterate through this dictionary 2n times, O(2n), O(n). The rest of all, each of them is O(1). Finally, overall O is O(n(k^2)+n), O(n(k^2)).
 
 ## Task3
 **Description**: 

@@ -12,16 +12,23 @@ with open('calls.csv', 'r') as f:
     calls = list(reader)
 
 def solution(calls) :
-    answer = 0
-    telephone_number = 0
+    phone_dict = {}
+
     for call in calls :
-        compare_to_answer = string_to_integer_seconds(call[3])
-        if answer < compare_to_answer :
-            answer = compare_to_answer
-            telephone_number = call[0]
+        phone_dict[call[0]] = dict_get_by_key(phone_dict,call[0],0) + string_to_integer_seconds(call[3])
+        phone_dict[call[1]] = dict_get_by_key(phone_dict,call[1],0) + string_to_integer_seconds(call[3])
+    
+    
+    max_time_spent = 0
+    max_time_phone_number = ""
 
-    print(telephone_number," spent the longest time,",answer," seconds, on the phone during September 2016.")
+    for phone in phone_dict :
+        if phone_dict[phone] > max_time_spent :
+            max_time_spent = phone_dict[phone]
+            max_time_phone_number = phone
+    
 
+    print(f"{max_time_phone_number} spent the longest time, {max_time_spent} seconds, on the phone during September 2016.")
 
 # string_to_integer function 
 def string_to_integer_seconds(s):
@@ -61,6 +68,15 @@ def list_len(lists) :
         count += 1
     
     return count
+
+
+def dict_get_by_key (dict_,key , default_value) :
+
+    if key in dict_ :
+        return dict_[key]
+    else :
+        return default_value 
+
 
 solution(calls=calls)
 
