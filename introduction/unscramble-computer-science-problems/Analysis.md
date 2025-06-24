@@ -28,15 +28,15 @@
 
 2. For each text in texts:
 
-    - If text/sender is not in different_numbers, append text[0] to different_numbers
+    - If sender is not in different_numbers, append sender to different_numbers
 
-    - If text/receiver is not in different_numbers, append text[1] to different_numbers
+    - If receiver is not in different_numbers, append receiver to different_numbers
 
 3. For each call in calls:
 
-    - If call/caller is not in different_numbers, append call[0] to different_numbers
+    - If caller is not in different_numbers, append caller to different_numbers
 
-    - If call/receiver is not in different_numbers, append call[1] to different_numbers
+    - If receiver is not in different_numbers, append receiver to different_numbers
 
 4. Create list_len function for calculating length of different_number list  
 
