@@ -14,29 +14,35 @@ with open('calls.csv', 'r') as f:
 
 
 def is_telemarketer_number (input_number) :
-    
-    if input_number[0:3] == "140" :
-        return True
+    return input_number[0:3] == "140" 
+        
+def solution(calls,texts) :
 
-    return False
+    out_going = []
+    non_tele = []
 
-def solution(calls) :
-
-    possible_telemarketer_number_list = []
     for call in calls :
-        if is_telemarketer_number(call[0]) and ((call[0] in possible_telemarketer_number_list) == False)  :
-            possible_telemarketer_number_list += [call[0]]
+        if call[0] not in out_going :
+            out_going += [call[0]]
+        
+        if call[1] not in non_tele :
+            non_tele += [call[1]]
 
-        if is_telemarketer_number(call[1]) and ((call[1] in possible_telemarketer_number_list) == False) :
-            possible_telemarketer_number_list += [call[1]]
+    for text in texts :
+        if text[0] not in non_tele :
+            non_tele += text[0]
+        
+        if text[1] not in non_tele :
+            non_tele += text[1]
 
-    possible_telemarketer_number_list_sorted = sorted(possible_telemarketer_number_list)
+    difference = list(set(out_going)-set(non_tele))
+    difference = sorted(difference)
 
-    print("These numbers could be telemarketers: ","\n")
-    for possible_telemarketer_number in possible_telemarketer_number_list_sorted :
-        print(possible_telemarketer_number,"\n")
+    print("These numbers could be telemarketers: ")
+    for code in difference :
+        print(code)
  
-solution(calls=calls)
+solution(calls=calls,texts=texts)
 """
 TASK 4:
 The telephone company want to identify numbers that might be doing

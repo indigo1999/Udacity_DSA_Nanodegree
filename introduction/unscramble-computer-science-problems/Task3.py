@@ -12,69 +12,82 @@ with open('calls.csv', 'r') as f:
     reader = csv.reader(f)
     calls = list(reader)
 
-def is_from_Bangalore (input_number) :
+def is_from_Bangalore (input_number) : #O(1)
+    return input_number[0:5] == "(080)"
+
+def is_fixed_line_number (input_number) : #O(1)
+    return input_number[0:2] == "(0" 
+
+def is_mobile_number (input_number) : # O(1)
+    return input_number[0] in ('7','8','9')
+
+def is_telemarketer_number (input_number) : # O(1)
+    return input_number[0:3] == "140"
+      
+def find_index_of_input (find_input,list_input) : # O(m^2)
+    index = 0
+    return_index = 0
+    while (index <= list_len(list_input)) : # O(m) / 1 time ==> O(m^2)
+        if find_input == list_input[index] :
+            return_index = index
+            break
+        index += 1
+
+    return return_index
+
+
+def list_len (lists) : #O(m)
+    count = 0
+    for list_count in lists :
+        count += 1
     
-    #check brackets
-    if input_number[0] == "(" and input_number[4] == ")" :
-      if input_number[1:4] == "080" :
-        #print("True")
-        return True
-
-    #print("False")
-    return False
-
-#is_from_Bangalore("(080)xxxxxx") 1
-
-def is_in_bangalore_number_list (input_check,bangalore_number_list) :
-
-   if input_check in bangalore_number_list :
-      return True
-
-   return False
-
-# k
+    return count
 
 def solution (calls) :
    
-   Both_not_from_bangalore_total = 0
-   Only_one_from_bangalore_total = 0
-   Both_from_bangalore_total = 0
+   area_code = [] # growth as k 
 
-   bangalore_number_list = [] # k
+   numerator = 0
+   denominator = 0
 
-   for call in calls : # n
-      if is_from_Bangalore(call[0]) == False and is_from_Bangalore(call[1]) == False :
-         Both_not_from_bangalore_total += 1
-      
-      elif (is_from_Bangalore(call[0]) == True and is_from_Bangalore(call[1]) == False) :
-         Only_one_from_bangalore_total += 1
+   for call in calls : # O(n)
+      if is_from_Bangalore(call[0]) : # O(1) | n[ m^2 + k ]
+          denominator += 1
 
-         if is_in_bangalore_number_list(call[0],bangalore_number_list) == False :
-            bangalore_number_list += [call[0]]
-         
-      elif is_from_Bangalore(call[0]) == False and is_from_Bangalore(call[1]) == True :
-         Only_one_from_bangalore_total += 1
+          if is_fixed_line_number(call[1]) : # O(1)
+              
+              index_end = find_index_of_input(")",call[1]) # O(m^2)
+              new_area_code = call[1][0:index_end+1]
 
-         if is_in_bangalore_number_list(call[1],bangalore_number_list) == False :
-            bangalore_number_list += [call[1]]
-      
-      elif is_from_Bangalore(call[0]) == True and is_from_Bangalore(call[1]) == True :
-         Both_from_bangalore_total += 1
+              if new_area_code not in area_code: # O(k)
+                  area_code += [new_area_code]
 
-         if is_in_bangalore_number_list(call[0],bangalore_number_list) == False :
-            bangalore_number_list += [call[0]]
 
-         if is_in_bangalore_number_list(call[1],bangalore_number_list) == False :
-            bangalore_number_list += [call[1]]
-   
-   percentage_both_from_bangalore = ( Both_from_bangalore_total / ( Both_not_from_bangalore_total + Only_one_from_bangalore_total ) ) * 100
-   bangalore_number_list_sorted = sorted(bangalore_number_list)
+          if is_mobile_number(call[1]) : # O(1)
+              
+               new_area_code = call[1][0:4]
 
-   print("The numbers called by people in Bangalore have codes: ")
-   for bangalore_number in bangalore_number_list_sorted :
-      print(bangalore_number,"\n")
+               if new_area_code not in area_code: # O(k)
+                  area_code += [new_area_code]
 
-   print(f"{percentage_both_from_bangalore:.2f}" ," percent of calls from fixed lines in Bangalore are calls to other fixed lines in Bangalore.")
+          if is_telemarketer_number(call[1]) : # O(1)
+               
+               if "140" not in area_code: # O(k)
+                  area_code += ["140"]    
+
+          if is_from_Bangalore(call[1]) : # O(1)
+               numerator += 1
+
+   sorted_area_code = sorted(area_code) # O(k log k)
+   result = numerator/denominator*100
+
+   print("The numbers called by people in Bangalore have codes:")
+   for code_ in sorted_area_code : # O(k)
+       print(code_)
+
+   print(f"{result:.2f} percent of calls from fixed lines in Bangalore are calls to other fixed lines in Bangalore.")
+
+# O(nm^2 + nk + klogk + k) ==> O(nm^2 + klogk)
 
 solution(calls=calls)
 

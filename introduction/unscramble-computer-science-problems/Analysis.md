@@ -77,11 +77,30 @@ Finally, I printed out the message formatted with max_time_spent and max_time_ph
 - **Justification**: The dict_get_by_key function is a function for searching key existence and return its value which dictionary key lookup is O(1) average case. The string_to_integer_seconds is a function to convert string into integer.In this function with considering the worst case, the outer loop has to process through input string k times.The inner loop has to process through string_to_number_dict dictionary 10 times, so it will be O(10k) which is O(k) after drop the constant value. The next loop for this function, it iterated through integer_list k times and each time it called list_len function which its Big O is O(k), k is length of input list. For this function, we get O(k + kk) or O(k^2). Back to main function, Iterating through calls record n times and each time it called dict_get_by_key 2 times and string_to_integer_seconds 2 times which overall O for this loop is O(n(k^2+k^2)), O(n(k^2)). The last loop, In worst case every call involves two unique numbers. the phone_dict will consist of 2n phone numbers and the last loop has to iterate through this dictionary 2n times, O(2n), O(n). The rest of all, each of them is O(1). Finally, overall O is O(n(k^2)+n), O(n(k^2)).
 
 ## Task3
-**Description**: 
+**Description**: There are 2 tasks to do, finding all area codes from telephone number which was called by people in Bangalore and calculating the percentage of calls
+were made to a number also starting with (080) which was called from the number also started with (080). 
 
-**Approach**: 
+**Approach**: I built 6 helper functions, is_from_Bangalore, is_fixed_line_number, is_mobile_number, is_telemarketer_number, find_index_of_input and list_len. In main function, I made a list, area_code, and declared 2 variables which are numerator and denominator. I iterated through calls record. If the caller is from Bangalore then denominator value will be incremented.After this checking, if the receiver is the fixed line number and its area code is not already existed in the area_code list then add its area code into the list. If the receiver is just a mobile number and its area code is not already existed in the area_code list then add its area code into the list. If the receiver is a telemarketer number which its area code is 140 and its area code is not already existed in the area_code list then add its area code into the list.If the receiver is also from Bangalore then denominator value will be incremented. I sort the area_code list and dividing numerator with denominator, multiply it with 100 and round it up 2 decimal places.After all, I printed out the message and printed all of the area code list and printed out the formatted message.
 **Complexity Analysis**:
 - **Algorithm**: 
+1. Initialize variables
+    - area_code: An empty list to store unique area codes or prefixes.
+    - numerator: Counter for how many calls from Bangalore are to Bangalore.
+    - denominator: Counter for how many calls are from Bangalore.
+2. Loop over all call records
+    - For each call:
+        Check if the caller is from Bangalore ("(080)"). If yes, increment the denominator by 1.
+        Based on the type of the receiver's number, extract the area code or prefix:
+            - Fixed line: Use find_index_of_input(")", call[1]) to locate the end of area code, and extract substring like "(XYZ)".
+            - Mobile number: Extract the first 4 digits.
+            - Telemarketer: Code is "140".
+        Add the code to area_code only if not already present.If the receiver is also from Bangalore, increment numerator.
+3. Sort the collected area codes/prefixes
+4. Calculate percentage
+5. Output the results
+    - Print all collected area codes or prefixes (sorted).
+    - Print the calculated percentage of Bangalore-to-Bangalore fixed line calls (to two decimal places).
+
 - **Big O Notation**:
 - **Justification**:
 
