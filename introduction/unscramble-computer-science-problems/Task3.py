@@ -24,7 +24,7 @@ def is_mobile_number (input_number) : # O(1)
 def is_telemarketer_number (input_number) : # O(1)
     return input_number[0:3] == "140"
       
-def find_index_of_input (find_input,list_input) : # O(m^2)
+def find_index_of_input (find_input,list_input) : # O(m^2) ==> O(1)
     index = 0
     return_index = 0
     while (index <= list_len(list_input)) : # O(m) / 1 time ==> O(m^2)
@@ -36,7 +36,7 @@ def find_index_of_input (find_input,list_input) : # O(m^2)
     return return_index
 
 
-def list_len (lists) : #O(m)
+def list_len (lists) : #O(m) ==> O(1)
     count = 0
     for list_count in lists :
         count += 1
